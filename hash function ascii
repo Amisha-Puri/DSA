@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+int hashFunction(string s, int constant) {
+    int sum = 0;
+
+    for (char c : s) {
+        sum += c;        // add ASCII value
+    }
+
+    return sum % constant;   // final index
+}
+
+int main() {
+    string s = "CAT";
+    int constant = 10;
+
+    int index = hashFunction(s, constant);
+
+    cout << "Index value = " << index;
+
+    return 0;
+}
