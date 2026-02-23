@@ -1,0 +1,80 @@
+#include <iostream>
+using namespace std;
+
+// This function merges two sorted parts of the array
+void mergeArrays(int numbers[], int start, int middle, int end) {
+    
+    int temporary[1000];   // temporary array to store sorted values
+    
+    int leftIndex = start;        // starting index of left half
+    int rightIndex = middle + 1;  // starting index of right half
+    int tempIndex = start;        // index for temporary array
+
+    // Compare elements from both halves
+    while(leftIndex <= middle && rightIndex <= end) {
+        
+        if(numbers[leftIndex] <= numbers[rightIndex]) {
+            temporary[tempIndex] = numbers[leftIndex];
+            leftIndex++;
+        } else {
+            temporary[tempIndex] = numbers[rightIndex];
+            rightIndex++;
+        }
+        
+        tempIndex++;
+    }
+
+    // Copy remaining elements from left half
+    while(leftIndex <= middle) {
+        temporary[tempIndex] = numbers[leftIndex];
+        leftIndex++;
+        tempIndex++;
+    }
+
+    // Copy remaining elements from right half
+    while(rightIndex <= end) {
+        temporary[tempIndex] = numbers[rightIndex];
+        rightIndex++;
+        tempIndex++;
+    }
+
+    // Copy sorted values back into original array
+    for(int i = start; i <= end; i++) {
+        numbers[i] = temporary[i];
+    }
+}
+
+// Recursive Merge Sort function
+void mergeSort(int numbers[], int start, int end) {
+    
+    if(start < end) {
+        
+        int middle = (start + end) / 2;
+        
+        mergeSort(numbers, start, middle);      // sort left half
+        mergeSort(numbers, middle + 1, end);    // sort right half
+        
+        mergeArrays(numbers, start, middle, end);  // merge both halves
+    }
+}
+
+int main() {
+    
+    int totalNumbers;
+    cout << "Enter number of elements: ";
+    cin >> totalNumbers;
+
+    int numbers[1000];
+
+    cout << "Enter elements: ";
+    for(int i = 0; i < totalNumbers; i++)
+        cin >> numbers[i];
+
+    mergeSort(numbers, 0, totalNumbers - 1);
+
+    cout << "Sorted array: ";
+    for(int i = 0; i < totalNumbers; i++)
+        cout << numbers[i] << " ";
+
+    return 0;
+}
